@@ -1,118 +1,118 @@
-contacts=[]
+# 🗂️ Unique CLI Contact Manager
+
+contact_list = []
 
 def add_contact():
-    name=input("enter the contact name:")
-    phone=input("enter the phone number:")
-    email=input("enter the email address")
-    address = input("enter the address:")
+    print("\n📌 Add New Contact")
+    name = input("👤 Name        : ")
+    phone = input("📞 Phone       : ")
+    email = input("📧 Email       : ")
+    address = input("🏠 Address     : ")
 
-    contact={
-        'name':name,
-        'phone':phone,
-        'email':email,
-        'address':address
+    contact = {
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'address': address
     }
 
-    contacts.append(contact)
-    print(f"\nContact {name} added ")
+    contact_list.append(contact)
+    print(f"\n✅ Contact '{name}' added successfully!")
 
-
-
-def view_contacts():
-    if not contacts:
-        print("\nNo contact found,")
-
+def display_contacts():
+    print("\n📇 Contact List")
+    if not contact_list:
+        print("🚫 No contacts saved.")
     else:
-        print("\n--- Contacts List ---")
-        for index,contact in enumerate(contacts):
-            print(f"{index}.{contact['name']} | {contact['phone']}")
-
-
+        for i, contact in enumerate(contact_list):
+            print(f"{i}. {contact['name']} | {contact['phone']}")
 
 def search_contact():
-    keyword=input("enter name or phone number to search :").lower()
-    found=False
-    for contact in contacts:
-        if keyword in contact["name"].lower() or keyword in contact["Phone"]:
-            print("\n-- Contact Found ---")
-            print(f" Name :{contact['name']}")    
-            print(f"phone: {contact['phone']}")
-            print(f" Email: {contact['email']}")
-            print(f" Address :{contact['address']}")
-            found=True
+    print("\n🔍 Search Contact")
+    query = input("Enter name or phone: ").lower()
+    found = False
+
+    for contact in contact_list:
+        if query in contact['name'].lower() or query in contact['phone']:
+            print("\n✅ Match Found:")
+            print(f"👤 Name    : {contact['name']}")
+            print(f"📞 Phone   : {contact['phone']}")
+            print(f"📧 Email   : {contact['email']}")
+            print(f"🏠 Address : {contact['address']}")
+            found = True
+            break
+
     if not found:
-        print("no matching contact ")
-
-
+        print("⚠️ No matching contact found.")
 
 def update_contact():
-    view_contacts()
+    print("\n✏️ Update Contact")
+    display_contacts()
+
     try:
         index = int(input("Enter contact number to update: "))
-        if 0 <= index < len(contacts):
-            print("\nEnter new details (leave blank to keep current):")
-            name = input(f"Name [{contacts[index]['name']}]: ") or contacts[index]['name']
-            phone = input(f"Phone [{contacts[index]['phone']}]: ") or contacts[index]['phone']
-            email = input(f"Email [{contacts[index]['email']}]: ") or contacts[index]['email']
-            address = input(f"Address [{contacts[index]['address']}]: ") or contacts[index]['address']
-            
-            contacts[index] = {
-                "name": name,
-                "phone": phone,
-                "email": email,
-                "address": address
+        if 0 <= index < len(contact_list):
+            current = contact_list[index]
+            print("\nLeave blank to keep existing values:")
+
+            name = input(f"👤 Name [{current['name']}]: ") or current['name']
+            phone = input(f"📞 Phone [{current['phone']}]: ") or current['phone']
+            email = input(f"📧 Email [{current['email']}]: ") or current['email']
+            address = input(f"🏠 Address [{current['address']}]: ") or current['address']
+
+            contact_list[index] = {
+                'name': name,
+                'phone': phone,
+                'email': email,
+                'address': address
             }
-            print("Contact updated successfully.")
+
+            print("✅ Contact updated successfully.")
         else:
-            print("Invalid contact number.")
+            print("❌ Invalid contact number.")
     except ValueError:
-        print("Please enter a valid number.")
+        print("⚠️ Please enter a valid number.")
 
 def delete_contact():
-    view_contacts()
+    print("\n🗑️ Delete Contact")
+    display_contacts()
+
     try:
         index = int(input("Enter contact number to delete: "))
-        if 0 <= index < len(contacts):
-            removed = contacts.pop(index)
-            print(f"Contact '{removed['name']}' deleted.")
+        if 0 <= index < len(contact_list):
+            removed = contact_list.pop(index)
+            print(f"🗑️ Contact '{removed['name']}' deleted.")
         else:
-            print("Invalid contact number.")
+            print("❌ Invalid contact number.")
     except ValueError:
-        print("Please enter a valid number.")
+        print("⚠️ Please enter a valid number.")
 
+def show_menu():
+    print("\n📘 Contact Manager")
+    print("1️⃣  Add Contact")
+    print("2️⃣  View Contact List")
+    print("3️⃣  Search Contact")
+    print("4️⃣  Update Contact")
+    print("5️⃣  Delete Contact")
+    print("6️⃣  Exit")
 
-
-def menu():
-    print("\n -- Contact book ---")
-    print("1. Add contact")
-    print("2. View contact list")
-    print("3.Search contact ")
-    print("4 .Update contact ")
-    print("5.Delete contact")
-    print("6.Exit")
-
-
-
-if __name__ =="__main__":
+if __name__ == "__main__":
     while True:
-        menu()
-        choice =input("enter your choice ")
+        show_menu()
+        choice = input("🔸 Choose an option (1-6): ")
 
         if choice == "1":
             add_contact()
-        elif choice =="2":
-            view_contacts()
-        elif choice =="3":
+        elif choice == "2":
+            display_contacts()
+        elif choice == "3":
             search_contact()
-        elif choice=="4":
+        elif choice == "4":
             update_contact()
-        elif choice =="5":
+        elif choice == "5":
             delete_contact()
-        elif choice=="6":
-            print("Goodbye!")
+        elif choice == "6":
+            print("👋 Goodbye! Have a nice day.")
             break
         else:
-            print("invalid input")
-
-
-
+            print("⚠️ Invalid choice. Please enter a number from 1 to 6.")
